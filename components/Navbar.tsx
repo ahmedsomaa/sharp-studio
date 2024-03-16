@@ -1,21 +1,27 @@
+import Link from "next/link";
+
 import Logo from "./Logo";
 import Github from "./icons/Github";
 
-export default function Navbar() {
+export default function Header() {
   return (
-    <nav className="w-full flex justify-center h-16">
-      <div className="w-full  flex justify-between items-center text-sm text-foreground">
-        <Logo color="text-primary" />
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/ahmedsomaa/theme-font-pair"
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100"
-        >
-          <Github />
-          <p>Star on GitHub</p>
-        </a>
+    <div className="container relative m-0 mx-auto py-10 md:px-10">
+      <div className="max-width flex items-center justify-between">
+        <Link className="flex w-fit items-center gap-[2px]" href="/">
+          <Logo />
+        </Link>
+        <div className="flex w-fit items-center gap-[22px]">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/ahmedsomaa/picloom"
+            className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100"
+          >
+            <Github />
+            <h1>Star on GitHub</h1>
+          </a>
+        </div>
       </div>
-    </nav>
+    </div>
   );
 }
