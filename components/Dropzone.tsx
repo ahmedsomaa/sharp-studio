@@ -58,7 +58,7 @@ export default function Dropzone({
                   id="file-upload"
                   className="sr-only"
                   onChange={onChange}
-                  accept="image/png, image/jpg, image/webp, image/jpeg"
+                  accept="image/png, image/jpg, image/webp"
                 />
               </label>
             </div>
