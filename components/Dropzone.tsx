@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { ImageUpIcon, Trash2Icon } from "lucide-react";
+import { ImageUpIcon, TrashIcon } from "lucide-react";
+
+import { Separator } from "./ui/separator";
 
 interface DropzoneProps extends React.HTMLAttributes<HTMLDivElement> {
   onDelete: () => void;
@@ -32,11 +34,12 @@ export default function Dropzone({
                 src={URL.createObjectURL(uploadedImage)}
               />
             </div>
+            <Separator orientation="horizontal" />
             <div className="flex flex-row items-center justify-between">
               <p className="text-sm">{uploadedImage.name}</p>
-              <Trash2Icon
+              <TrashIcon
                 onClick={onDelete}
-                className="h-5 w-5 text-red-600 hover:cursor-pointer hover:text-red-600/80"
+                className="h-5 w-5 text-red-600 hover:cursor-pointer hover:text-red-600/50"
               />
             </div>
           </div>
