@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { Toaster } from "@/components/ui/sonner";
 
 import { spaceFont } from "@/lib/fonts";
 import Footer from "@/components/Footer";
@@ -13,6 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Navbar />
       <Component {...pageProps} />
       <Footer />
+      <Toaster richColors />
     </div>
   );
 }
