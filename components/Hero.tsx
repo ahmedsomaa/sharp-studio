@@ -2,7 +2,7 @@ import BackgroundGradient from "./BackgoundGradient";
 
 export default function Hero() {
   return (
-    <div className="relative h-[350px] w-full  px-4 md:h-[605px] md:px-6 lg:px-8 xl:px-10 2xl:px-0">
+    <div className="relative h-[350px] w-full px-4 md:h-[605px] md:px-6 lg:px-8 xl:px-10 2xl:px-0">
       <div className="flex h-full w-full flex-col items-center justify-center">
         <a
           rel="noreferrer"
@@ -12,7 +12,7 @@ export default function Hero() {
         >
           Powered by <span className="font-bold text-primary">Sharp</span>
         </a>
-        <h1 className="inline-block text-center text-4xl font-medium tracking-tighter text-dark lg:text-7xl">
+        <h1 className="bg-gradient-to-br from-black to-zinc-700 bg-clip-text text-4xl/[1.07] font-bold tracking-tight text-transparent md:text-6xl/[1.07]">
           High Image Processing
         </h1>
         <p className="mt-8 text-center text-xl font-light tracking-tight lg:text-3xl">
