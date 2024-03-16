@@ -1,22 +1,10 @@
-import Link from "next/link";
 import { PenToolIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { spaceFont } from "@/lib/fonts";
-
-interface LogoProps {
-  color?: string;
-}
-
-export default function Logo({ color }: LogoProps) {
+export default function Logo() {
   return (
-    <Link className={spaceFont} href="/">
-      <div className="flex flex-row space-x-2 items-center justify-center">
-        <PenToolIcon size={24} className={color} />
-        <span className={cn("font-medium text-lg text-black", color)}>
-          PicLoom
-        </span>
-      </div>
-    </Link>
+    <div className="flex flex-row items-center justify-center gap-2">
+      <PenToolIcon size={30} className="text-primary" />
+      <h1 className="text-xl font-medium text-primary md:text-3xl">PicLoom</h1>
+    </div>
   );
 }
