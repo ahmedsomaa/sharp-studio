@@ -24,14 +24,14 @@ export default function Dropzone({
       <div className="space-y-4 text-center">
         {uploadedImage ? (
           <div className="flex flex-col gap-3">
-            <div className="w-full h-auto">
+            <div className="w-full h-full">
               <Image
                 width={0}
                 height={0}
                 sizes="100vw"
                 alt={uploadedImage.name}
-                className="w-full h-full mx-auto rounded-lg"
                 src={URL.createObjectURL(uploadedImage)}
+                className="w-full h-full mx-auto rounded-lg"
               />
             </div>
             <Separator orientation="horizontal" />
@@ -58,7 +58,7 @@ export default function Dropzone({
                   id="file-upload"
                   className="sr-only"
                   onChange={onChange}
-                  accept="image/png, image/jpg, image/webp"
+                  accept="image/png, image/jpg, image/webp, image/jpeg"
                 />
               </label>
             </div>
