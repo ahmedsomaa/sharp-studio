@@ -12,11 +12,13 @@ export default function Hero() {
         >
           Powered by <span className="font-bold text-primary">Sharp</span>
         </a>
-        <h1 className="bg-gradient-to-br from-black to-zinc-700 bg-clip-text text-4xl/[1.07] font-bold tracking-tight text-transparent md:text-6xl/[1.07]">
+        <h1 className="bg-gradient-to-br from-black to-zinc-600 bg-clip-text text-4xl/[1.07] font-bold tracking-tight text-transparent md:text-6xl/[1.07]">
           High Image Processing
         </h1>
         <p className="mt-8 text-center text-xl font-light tracking-tight lg:text-3xl">
-          Resize, convert and edit your images with precision and ease!
+          Resize and convert your images with{" "}
+          <b className="font-semibold">precision</b> and
+          <b className="font-semibold"> ease</b>!
         </p>
       </div>
       {/* background gradient */}
