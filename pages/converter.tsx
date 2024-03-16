@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
   Card,
@@ -33,6 +31,14 @@ const formats = [
 export default function Converter() {
   const [format, setFormat] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+  const extension = useMemo(
+    () =>
+      ["jpeg", "jpg"].includes(selectedImage?.type.split("/")[1] as string)
+        ? "jpg"
+        : selectedImage?.type.split("/")[1],
+    [selectedImage]
+  );
 
   // --- handlers
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +84,7 @@ export default function Converter() {
           <h3 className="text-xl text-zinc-500">
             Quickly convert your images from one format to another.
           </h3>
-          <Card className="w-full flex flex-col gap-2">
+          <Card className="w-full flex flex-col gap-2 shadow-none">
             <CardHeader>
               <CardTitle className="text-lg font-medium">
                 Upload your image
@@ -99,36 +105,24 @@ export default function Converter() {
                 <Label htmlFor="format">Target Format</Label>
                 <Select
                   value={format}
+                  disabled={selectedImage === null}
                   onValueChange={(value) => setFormat(value)}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a format" />
                   </SelectTrigger>
                   <SelectContent>
-                    {selectedImage
-                      ? formats
-                          .filter(
-                            ({ value }) =>
-                              value !== selectedImage?.type.split("/")[1]
-                          )
-                          .map(({ name, value }) => (
-                            <SelectItem
-                              key={name}
-                              value={value}
-                              className={spaceFont}
-                            >
-                              {name}
-                            </SelectItem>
-                          ))
-                      : formats.map(({ name, value }) => (
-                          <SelectItem
-                            key={name}
-                            value={value}
-                            className={spaceFont}
-                          >
-                            {name}
-                          </SelectItem>
-                        ))}
+                    {formats
+                      .filter(({ value }) => value !== extension)
+                      .map(({ name, value }) => (
+                        <SelectItem
+                          key={name}
+                          value={value}
+                          className={spaceFont}
+                        >
+                          {name}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>
