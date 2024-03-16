@@ -13,3 +13,7 @@ export function toBase64(file: File) {
     };
   });
 }
+
+export function bufferToBase64(buffer: Buffer, imageType: string) {
+  return `data:${imageType};base64,${buffer.toString("base64")}`;
+}
