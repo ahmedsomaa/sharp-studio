@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import sharp from "sharp";
+import { bufferToBase64 } from "@/lib/files";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResizeReqBody = {
@@ -13,6 +14,14 @@ type ResizeReqBody = {
   };
 };
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb",
+    },
+  },
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -20,20 +29,17 @@ export default async function handler(
   if (req.method === "POST") {
     const { image, dimensions } = JSON.parse(req.body) as ResizeReqBody;
     const base64Data = image.base64.replace(/^data:image\/\w+;base64,/, "");
-
-    try {
-      // FIXME: find a way to send va
-      const resized = await sharp(Buffer.from(base64Data, "base64"))
-        .resize(Number(dimensions.width), Number(dimensions.height))
-        .toBuffer();
-      res.status(200).json({
-        message: "OK",
-        data: `data:${image.type};base64,${resized.toString("base64")}`,
-      });
-    } catch (error) {
-      res.status(500).json({ message: "ERROR", data: error });
-    }
+    const resized = await sharp(Buffer.from(base64Data, "base64"))
+      .resize(Number(dimensions.width), Number(dimensions.height))
+      .withMetadata()
+      .toBuffer();
+    res.status(200).json({
+      message: "OK",
+      data: {
+        img: bufferToBase64(resized, image.type),
+      },
+    });
   } else {
-    res.status(404);
+    res.status(405).send("Method not allowed!");
   }
 }
