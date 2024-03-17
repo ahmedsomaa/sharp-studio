@@ -36,6 +36,14 @@ export default function Resizer() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedImage) return;
     const file = event.target.files && event.target.files[0];
+
+    if (file && file.size > 4.5e6) {
+      toast.error("File Upload Failed", {
+        description: "Maximum file size exceeded",
+      });
+      return;
+    }
+
     if (file) {
       setSelectedImage(file);
     }
@@ -51,6 +59,12 @@ export default function Resizer() {
 
     event.preventDefault();
     const file = event.dataTransfer.files && event.dataTransfer.files[0];
+    if (file.size > 4.5e6) {
+      toast.error("File Upload Failed", {
+        description: "Maximum file size exceeded",
+      });
+      return;
+    }
     if (file) {
       setSelectedImage(file);
     }

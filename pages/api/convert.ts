@@ -12,7 +12,7 @@ type ConvertReqBody = {
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "10mb",
+      sizeLimit: "4.5mb",
     },
   },
 };
