@@ -1,11 +1,11 @@
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
+import HeroSection from "@/components/sections/Hero";
+import FeaturesSection from "@/components/sections/Features";
 
 export default function Landing() {
   return (
     <div>
-      <Hero />
-      <Features />
+      <HeroSection />
+      <FeaturesSection />
     </div>
   );
 }
