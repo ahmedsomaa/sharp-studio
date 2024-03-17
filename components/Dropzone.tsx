@@ -34,7 +34,7 @@ export default function Dropzone({
                 className="w-full h-full mx-auto rounded-lg"
               />
             </div>
-            <Separator orientation="horizontal" />
+            <Separator orientation="horizontal" className="bg-primary" />
             <div className="flex flex-row items-center justify-between">
               <p className="text-sm">{uploadedImage.name}</p>
               <TrashIcon
