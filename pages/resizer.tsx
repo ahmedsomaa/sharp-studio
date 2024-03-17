@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
+type Base64 = string;
 type Dimension = {
   width: string;
   height: string;
@@ -28,7 +29,7 @@ export default function Resizer() {
     width: "",
     height: "",
   });
-  const [resizedImage, setResizedImage] = useState<string | null>(null);
+  const [resizedImage, setResizedImage] = useState<Base64 | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   // --- handlers
@@ -55,10 +56,7 @@ export default function Resizer() {
     }
   };
 
-  const handleOnDelete = () => {
-    setSelectedImage(null);
-    setDimensions({ width: "", height: "" });
-  };
+  const handleOnDelete = () => onReset();
 
   const onReset = () => {
     setResizedImage(null);
@@ -67,7 +65,6 @@ export default function Resizer() {
   };
 
   const onResize = async () => {
-    // TODO: add conversion logic
     try {
       setLoading(true);
       const img = await toBase64(selectedImage as File);
@@ -79,15 +76,17 @@ export default function Resizer() {
         }),
       });
       if (req.status === 413) {
-        const err = await req.text();
-        throw new Error(err);
+        throw new Error("Image size exceeded 1MB");
       }
       const res = await req.json();
       setLoading(false);
       setResizedImage(res.data.img);
     } catch (error) {
       setLoading(false);
-      toast.error("Image Resize Failed");
+      const cause = (error as Error).message;
+      toast.error("Image Resize Failed", {
+        description: cause,
+      });
     }
   };
 
@@ -110,11 +109,11 @@ export default function Resizer() {
                 Upload your image
               </CardTitle>
               <CardDescription className="text-sm font-medium text-gray-500">
-                Only PNG, JPG & WEBP are supported.
+                Only PNG, JPG, JPEG and WEBP are supported
               </CardDescription>
             </CardHeader>
             <CardContent className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
-              <div>
+              <div className="space-y-1">
                 <Dropzone
                   onDrop={handleDrop}
                   onDelete={handleOnDelete}
@@ -142,7 +141,7 @@ export default function Resizer() {
                     }
                   />
                 </div>
-                <div>
+                <div className="space-y-1">
                   <Label htmlFor="height">New Width</Label>
                   <Input
                     id="width"
