@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import sharp from "sharp";
-import { bufferToBase64 } from "@/lib/files";
 import type { NextApiRequest, NextApiResponse } from "next";
+
+import { bufferToBase64 } from "@/lib/files";
 
 type ResizeReqBody = {
   image: {
