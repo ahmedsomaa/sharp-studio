@@ -70,9 +70,9 @@ export default function Converter() {
     }
   };
 
-  const handleOnDelete = () => onReset();
+  const handleOnDelete = () => onClickNew();
 
-  const onReset = () => {
+  const onClickNew = () => {
     setSelectedImage(null);
     setConvertedImage(null);
     setOptions({ format: "", quality: 80 });
@@ -95,10 +95,13 @@ export default function Converter() {
       const res = await req.json();
       setLoading(false);
       setConvertedImage(res.data.img);
+      toast.success("Conversion Succeeded", {
+        description: `PicLoom successfully converted your image to ${options.format.toUpperCase()}`,
+      });
     } catch (error) {
       setLoading(false);
       const cause = (error as Error).message;
-      toast.error("Image Resize Failed", {
+      toast.error("Conversion Failed", {
         description: cause,
       });
     }
@@ -111,7 +114,7 @@ export default function Converter() {
           <h2 className="sm:text-4xl/ text-3xl max-w-[708px] font-bold text-slate-900">
             <p className="flex flex-row items-center">
               <RepeatIcon size={32} className="mr-2" />
-              Image Converter
+              Convert
             </p>
           </h2>
           <h3 className="text-xl text-zinc-500">
@@ -183,15 +186,18 @@ export default function Converter() {
               <CardFooter className="flex flex-row justify-end">
                 {convertedImage ? (
                   <div className="space-x-2">
-                    <Button variant="outline" onClick={onReset}>
-                      Reset
+                    <Button variant="outline" onClick={onClickNew}>
+                      New
                     </Button>
                     <a href={convertedImage} download>
                       <Button>Download</Button>
                     </a>
                   </div>
                 ) : (
-                  <Button disabled={loading} onClick={onConvert}>
+                  <Button
+                    onClick={onConvert}
+                    disabled={loading || !options.format}
+                  >
                     {loading ? "Converting..." : "Convert"}
                   </Button>
                 )}
