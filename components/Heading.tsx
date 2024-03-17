@@ -19,7 +19,7 @@ export default function Heading() {
 
       {/* Links */}
       <link rel="icon" href="/favicon.ico" />
-      <link rel="canonical" href="https://sharp-studio.vercel.app" />
+      <link rel="canonical" href="https://sharpstudio.vercel.app/" />
 
       {/* Open Graph */}
       <meta property="og:title" content="EditorSetup" />
@@ -27,12 +27,12 @@ export default function Heading() {
         property="og:description"
         content="Resize, convert and edit your images with precision and ease!"
       />
-      <meta property="og:url" content="https://sharp-studio.vercel.app" />
+      <meta property="og:url" content="https://sharpstudio.vercel.app/" />
       <meta property="og:image" content="/img/og-image.png" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="https://sharp-studio.vercel.app" />
+      <meta name="twitter:site" content="https://sharpstudio.vercel.app/" />
       <meta name="twitter:creator" content="Ahmed Abu Qahf" />
       <meta name="twitter:title" content="SharpStudio" />
       <meta
