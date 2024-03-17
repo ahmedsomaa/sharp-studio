@@ -18,7 +18,7 @@ import {
   SelectContent,
 } from "@/components/ui/select";
 import { toBase64 } from "@/lib/files";
-import { spaceFont } from "@/lib/fonts";
+import { interFont } from "@/lib/fonts";
 import Dropzone from "@/components/Dropzone";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -163,7 +163,7 @@ export default function Compressor() {
                         <SelectItem
                           key={name}
                           value={extension}
-                          className={spaceFont}
+                          className={interFont}
                         >
                           {name}
                         </SelectItem>
