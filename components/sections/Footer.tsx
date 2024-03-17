@@ -1,5 +1,5 @@
-import Github from "./icons/Github";
-import Twitter from "./icons/Twitter";
+import Github from "../icons/Github";
+import Twitter from "../icons/Twitter";
 
 export default function Footer() {
   return (

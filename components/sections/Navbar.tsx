@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import Logo from "./Logo";
-import Github from "./icons/Github";
+import Logo from "../Logo";
+import Github from "../icons/Github";
 
 export default function Header() {
   return (
