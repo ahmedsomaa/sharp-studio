@@ -1,4 +1,4 @@
-import BackgroundGradient from "./BackgoundGradient";
+import HeroGradient from "./HeroGradient";
 
 export default function Hero() {
   return (
@@ -16,16 +16,14 @@ export default function Hero() {
           High Image Processing
         </h2>
         <p className="mt-8 text-center text-xl font-light tracking-tight lg:text-3xl">
-          Resize and convert your images with{" "}
+          Convert, resize and compress your images with{" "}
           <b className="font-semibold">precision</b> and
           <b className="font-semibold"> ease</b>!
         </p>
       </div>
       {/* background gradient */}
-      <div className="absolute bottom-0 left-0 right-0 top-0 z-[-1] hidden h-full w-full grid-cols-3 md:grid">
-        <BackgroundGradient />
-        <BackgroundGradient />
-        <BackgroundGradient />
+      <div className="absolute bottom-0 left-0 right-0 top-0 z-[-1] sm:grid-cols-1 h-full w-full md:grid-cols-1 md:grid">
+        <HeroGradient />
       </div>
     </div>
   );
