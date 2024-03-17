@@ -6,7 +6,7 @@ import { bufferToBase64 } from "@/lib/files";
 
 type ConvertReqBody = {
   image: { type: string; base64: string };
-  options: { format: "jpg" | "png" | "webp"; quality: number };
+  options: { format: "jpg" | "png" | "webp"; quality?: number };
 };
 
 export const config = {
@@ -26,7 +26,7 @@ export default async function handler(
     const base64Data = image.base64.replace(/^data:image\/\w+;base64,/, "");
     const resized = await sharp(Buffer.from(base64Data, "base64"))
       .toFormat(options.format, {
-        quality: options.quality,
+        quality: options?.quality ?? 80,
       })
       .withMetadata()
       .toBuffer();
