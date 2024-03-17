@@ -127,7 +127,7 @@ export default function Resizer() {
               </CardTitle>
               <CardDescription className="text-sm font-medium text-gray-500">
                 Only PNG, JPG, JPEG and WEBP are supported with maximum size of
-                10MB.
+                4.5MB.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
