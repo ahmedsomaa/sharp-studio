@@ -56,9 +56,9 @@ export default function Resizer() {
     }
   };
 
-  const handleOnDelete = () => onReset();
+  const handleOnDelete = () => onClickNew();
 
-  const onReset = () => {
+  const onClickNew = () => {
     setResizedImage(null);
     setSelectedImage(null);
     setDimensions({ height: "", width: "" });
@@ -81,10 +81,13 @@ export default function Resizer() {
       const res = await req.json();
       setLoading(false);
       setResizedImage(res.data.img);
+      toast.success("Resize Succeeded", {
+        description: `PicLoom successfully resized your image to ${dimensions.height}x${dimensions.width}`,
+      });
     } catch (error) {
       setLoading(false);
       const cause = (error as Error).message;
-      toast.error("Image Resize Failed", {
+      toast.error("Resize Failed", {
         description: cause,
       });
     }
@@ -97,7 +100,7 @@ export default function Resizer() {
           <h2 className="sm:text-4xl/ text-3xl max-w-[708px] font-bold text-slate-900">
             <p className="flex flex-row items-center">
               <ScalingIcon size={32} className="mr-2" />
-              Image Resizer
+              Resize
             </p>
           </h2>
           <h3 className="text-xl text-zinc-500">
@@ -167,15 +170,20 @@ export default function Resizer() {
               <CardFooter className="flex flex-row justify-end">
                 {resizedImage ? (
                   <div className="space-x-2">
-                    <Button variant="outline" onClick={onReset}>
-                      Reset
+                    <Button variant="outline" onClick={onClickNew}>
+                      New
                     </Button>
                     <a href={resizedImage} download>
                       <Button>Download</Button>
                     </a>
                   </div>
                 ) : (
-                  <Button disabled={loading} onClick={onResize}>
+                  <Button
+                    disabled={
+                      loading || !(dimensions.height && dimensions.width)
+                    }
+                    onClick={onResize}
+                  >
                     {loading ? "Resizing..." : "Resize"}
                   </Button>
                 )}
