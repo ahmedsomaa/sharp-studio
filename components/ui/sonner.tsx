@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import { Toaster as Sonner } from "sonner";
 
 import { cn } from "@/lib/utils";
-import { spaceFont } from "@/lib/fonts";
+import { interFont } from "@/lib/fonts";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
@@ -17,7 +17,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         classNames: {
           toast: cn(
             "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
-            spaceFont
+            interFont
           ),
           description: "group-[.toast]:text-muted-foreground",
           actionButton:
