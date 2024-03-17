@@ -96,7 +96,7 @@ export default function Resizer() {
       setLoading(false);
       setResizedImage(res.data.img);
       toast.success("Resize Succeeded", {
-        description: `PicLoom successfully resized your image to ${dimensions.height}x${dimensions.width}`,
+        description: `SharpStudio successfully resized your image to ${dimensions.height}x${dimensions.width}`,
       });
     } catch (error) {
       setLoading(false);

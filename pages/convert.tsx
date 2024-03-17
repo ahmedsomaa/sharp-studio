@@ -110,7 +110,7 @@ export default function Converter() {
       setLoading(false);
       setConvertedImage(res.data.img);
       toast.success("Conversion Succeeded", {
-        description: `PicLoom successfully converted your image to ${options.format.toUpperCase()}`,
+        description: `SharpStudio successfully converted your image to ${options.format.toUpperCase()}`,
       });
     } catch (error) {
       setLoading(false);

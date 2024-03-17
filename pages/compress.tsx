@@ -99,7 +99,7 @@ export default function Compressor() {
         (Number(selectedImage?.size) - res.data.size) /
         Number(selectedImage?.size);
       toast.success("Compression Succeeded", {
-        description: `PicLoom just saved you ${Math.abs(
+        description: `SharpStudio just saved you ${Math.abs(
           percentage * 100
         ).toFixed(0)}%`,
       });
