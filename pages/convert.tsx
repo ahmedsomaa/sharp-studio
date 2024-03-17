@@ -108,7 +108,7 @@ export default function Converter() {
   };
 
   return (
-    <div className="mb-40">
+    <div className="md:mb-40 mb-[500px]">
       <div className="relative h-[350px] w-full px-4 md:h-[603px] md:px-6 lg:px-8 xl:px-10 2xl:px-0">
         <div className="flex h-full max-w-screen-md	 mx-auto w-full flex-col items-center gap-5">
           <h2 className="sm:text-4xl/ text-3xl max-w-[708px] font-bold text-slate-900">
@@ -130,7 +130,7 @@ export default function Converter() {
                 10MB.
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
+            <CardContent className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8">
               <Dropzone
                 onDrop={handleDrop}
                 onDelete={handleOnDelete}
@@ -139,8 +139,9 @@ export default function Converter() {
                 uploadedImage={selectedImage}
               />
               <div className="flex flex-col justify-start gap-3">
+                <h4 className="text-xl font-bold">Conversion Options</h4>
                 <div className="space-y-1">
-                  <Label htmlFor="format">Target Format</Label>
+                  <Label htmlFor="format">Convert to</Label>
                   <Select
                     value={options.format}
                     disabled={selectedImage === null}

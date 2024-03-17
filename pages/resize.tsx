@@ -94,7 +94,7 @@ export default function Resizer() {
   };
 
   return (
-    <div className="mb-40">
+    <div className="md:mb-40 mb-[500px]">
       <section className="relative h-[350px] w-full px-4 md:h-[605px] md:px-6 lg:px-8 xl:px-10 2xl:px-0">
         <div className="flex h-full max-w-screen-md	 mx-auto w-full flex-col items-center gap-5">
           <h2 className="sm:text-4xl/ text-3xl max-w-[708px] font-bold text-slate-900">
