@@ -1,8 +1,8 @@
-import { Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
 
-export const spaceFont = spaceGrotesk.className;
+export const interFont = inter.className;
