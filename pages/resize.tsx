@@ -130,16 +130,14 @@ export default function Resizer() {
                 4.5MB.
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <Dropzone
-                  onDrop={handleDrop}
-                  onDelete={handleOnDelete}
-                  onDragOver={handleDragOver}
-                  onChange={handleFileChange}
-                  uploadedImage={selectedImage}
-                />
-              </div>
+            <CardContent className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8">
+              <Dropzone
+                onDrop={handleDrop}
+                onDelete={handleOnDelete}
+                onDragOver={handleDragOver}
+                onChange={handleFileChange}
+                uploadedImage={selectedImage}
+              />
               <div className="flex flex-col justify-start gap-3">
                 <h4 className="text-xl font-bold">Resize Options</h4>
                 <div>
