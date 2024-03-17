@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+import { RepeatIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 
 import {
@@ -15,27 +17,31 @@ import {
   SelectTrigger,
   SelectContent,
 } from "@/components/ui/select";
+import { toBase64 } from "@/lib/files";
 import { spaceFont } from "@/lib/fonts";
 import Dropzone from "@/components/Dropzone";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { supportedFormats } from "@/lib/formats";
 import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
 
-// TODO: Move to lib/formats
-const formats = [
-  { name: "PNG", value: "png" },
-  { name: "JPG", value: "jpg" },
-  { name: "WEBP", value: "webp" },
-];
+type Base64 = string;
+type Options = {
+  format: string;
+  quality: number;
+};
 
 export default function Converter() {
-  const [format, setFormat] = useState("");
+  const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [options, setOptions] = useState<Options>({ format: "", quality: 80 });
+  const [convertedImage, setConvertedImage] = useState<Base64 | null>(null);
 
-  const extension = useMemo(
+  const imgExt = useMemo(
     () =>
       ["jpeg", "jpg"].includes(selectedImage?.type.split("/")[1] as string)
-        ? "jpg"
+        ? "jpeg"
         : selectedImage?.type.split("/")[1],
     [selectedImage]
   );
@@ -64,22 +70,49 @@ export default function Converter() {
     }
   };
 
-  const handleOnDelete = () => {
-    setFormat("");
+  const handleOnDelete = () => onReset();
+
+  const onReset = () => {
     setSelectedImage(null);
+    setConvertedImage(null);
+    setOptions({ format: "", quality: 80 });
   };
 
-  const onConvert = () => {
-    // TODO: add conversion logic
-    console.log("Start converting here");
+  const onConvert = async () => {
+    try {
+      setLoading(true);
+      const img = await toBase64(selectedImage as File);
+      const req = await fetch("/api/convert", {
+        method: "POST",
+        body: JSON.stringify({
+          options,
+          image: { base64: img, type: selectedImage?.type },
+        }),
+      });
+      if (req.status === 413) {
+        throw new Error("Image size exceeded 1MB");
+      }
+      const res = await req.json();
+      setLoading(false);
+      setConvertedImage(res.data.img);
+    } catch (error) {
+      setLoading(false);
+      const cause = (error as Error).message;
+      toast.error("Image Resize Failed", {
+        description: cause,
+      });
+    }
   };
 
   return (
-    <div>
+    <div className="mb-40">
       <div className="relative h-[350px] w-full px-4 md:h-[603px] md:px-6 lg:px-8 xl:px-10 2xl:px-0">
         <div className="flex h-full max-w-screen-md	 mx-auto w-full flex-col items-center gap-5">
           <h2 className="sm:text-4xl/ text-3xl max-w-[708px] font-bold text-slate-900">
-            Image Converter
+            <p className="flex flex-row items-center">
+              <RepeatIcon size={32} className="mr-2" />
+              Image Converter
+            </p>
           </h2>
           <h3 className="text-xl text-zinc-500">
             Quickly convert your images from one format to another.
@@ -90,7 +123,7 @@ export default function Converter() {
                 Upload your image
               </CardTitle>
               <CardDescription className="text-sm font-medium text-gray-500">
-                Only PNG, JPG & WEBP are supported.
+                Only PNG, JPG, JPEG and WEBP are supported.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -101,36 +134,66 @@ export default function Converter() {
                 onChange={handleFileChange}
                 uploadedImage={selectedImage}
               />
-              <div className="flex flex-col justify-start gap-2">
-                <Label htmlFor="format">Target Format</Label>
-                <Select
-                  value={format}
-                  disabled={selectedImage === null}
-                  onValueChange={(value) => setFormat(value)}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a format" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {formats
-                      .filter(({ value }) => value !== extension)
-                      .map(({ name, value }) => (
-                        <SelectItem
-                          key={name}
-                          value={value}
-                          className={spaceFont}
-                        >
-                          {name}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
+              <div className="flex flex-col justify-start gap-3">
+                <div className="space-y-1">
+                  <Label htmlFor="format">Target Format</Label>
+                  <Select
+                    value={options.format}
+                    disabled={selectedImage === null}
+                    onValueChange={(value) =>
+                      setOptions((prev) => ({ ...prev, format: value }))
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a format" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {supportedFormats
+                        .filter(({ extension }) => extension !== imgExt)
+                        .map(({ name, extension }) => (
+                          <SelectItem
+                            key={name}
+                            value={extension}
+                            className={spaceFont}
+                          >
+                            {name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="quality">Quality</Label>
+                  <Slider
+                    min={1}
+                    step={1}
+                    max={100}
+                    value={[options.quality]}
+                    disabled={!selectedImage}
+                    onValueChange={([value]) =>
+                      setOptions((prev) => ({ ...prev, quality: value }))
+                    }
+                  />
+                </div>
               </div>
             </CardContent>
             {selectedImage && <Separator orientation="horizontal" />}
             {selectedImage && (
               <CardFooter className="flex flex-row justify-end">
-                <Button onClick={onConvert}>Convert</Button>
+                {convertedImage ? (
+                  <div className="space-x-2">
+                    <Button variant="outline" onClick={onReset}>
+                      Reset
+                    </Button>
+                    <a href={convertedImage} download>
+                      <Button>Download</Button>
+                    </a>
+                  </div>
+                ) : (
+                  <Button disabled={loading} onClick={onConvert}>
+                    {loading ? "Converting..." : "Convert"}
+                  </Button>
+                )}
               </CardFooter>
             )}
           </Card>
