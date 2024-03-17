@@ -141,6 +141,7 @@ export default function Resizer() {
                 />
               </div>
               <div className="flex flex-col justify-start gap-3">
+                <h4 className="text-xl font-bold">Resize Options</h4>
                 <div>
                   <Label htmlFor="height">New Height</Label>
                   <Input
