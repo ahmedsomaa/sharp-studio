@@ -92,6 +92,9 @@ export default function Compressor() {
       if (req.status === 413) {
         throw new Error("Image size exceeded 1MB");
       }
+      if (!req.ok) {
+        throw new Error("Failed to compress image");
+      }
       const res = await req.json();
       setLoading(false);
       setCompressedImage(res.data.img);
