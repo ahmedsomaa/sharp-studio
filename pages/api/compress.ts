@@ -2,7 +2,7 @@ import sharp from "sharp";
 
 import { createApiHandler } from "@/components/api/createHandler";
 import { base64ToBuffer, bufferToBase64 } from "@/lib/files";
-import { requestImageSchema } from "@/components/api/schema";
+import { CompressImageSchema } from "@/components/api/schema";
 
 export const config = {
   api: {
@@ -12,7 +12,7 @@ export const config = {
   },
 };
 
-export default createApiHandler(requestImageSchema, async ({ body }) => {
+export default createApiHandler(CompressImageSchema, async ({ body }) => {
   const imgBuffer = base64ToBuffer(body.image.base64)
 
   const resized = await sharp(imgBuffer)
