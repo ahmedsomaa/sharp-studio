@@ -36,12 +36,12 @@ export default function Features() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-14">
             {features.map(({ title, icon, path, description }) => (
               <Link key={title} href={path}>
-                <Card className="w-[400px] group hover:border-primary hover:cursor-pointer">
+                <Card className="min-w-fit group hover:border-primary hover:cursor-pointer">
                   <CardHeader>
                     <CardTitle>
                       <div className="flex flex-col gap-3">
                         {icon}
-                        <h3 className="text-lg group-hover:text-primary font-medium leading-none">
+                        <h3 className="text-lg group-hover:text-primary font-semibold leading-none">
                           {title}
                         </h3>
                       </div>
