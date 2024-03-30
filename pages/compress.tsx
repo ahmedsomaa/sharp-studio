@@ -1,28 +1,28 @@
-import { toast } from "sonner";
+import { ShrinkIcon } from "lucide-react";
 import React, { useState } from "react";
-import { ImageDownIcon, PlusIcon, ShrinkIcon } from "lucide-react";
+import { toast } from "sonner";
 
+import Dropzone from "@/components/Dropzone";
+import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardTitle,
-  CardFooter,
-  CardHeader,
   CardContent,
   CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import {
   Select,
-  SelectItem,
-  SelectValue,
-  SelectTrigger,
   SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { toBase64 } from "@/lib/files";
 import { interFont } from "@/lib/fonts";
-import Dropzone from "@/components/Dropzone";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 
 type Base64 = string;
 
@@ -92,6 +92,9 @@ export default function Compressor() {
       if (req.status === 413) {
         throw new Error("Image size exceeded 1MB");
       }
+      if (!req.ok) {
+        throw new Error("Failed to compress image");
+      }
       const res = await req.json();
       setLoading(false);
       setCompressedImage(res.data.img);
@@ -100,7 +103,7 @@ export default function Compressor() {
         Number(selectedImage?.size);
       toast.success("Compression Succeeded", {
         description: `SharpStudio just saved you ${Math.abs(
-          percentage * 100
+          percentage * 100,
         ).toFixed(0)}%`,
       });
     } catch (error) {
