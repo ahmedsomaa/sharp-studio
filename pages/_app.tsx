@@ -13,11 +13,15 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className={interFont}>
       <Heading />
-      <Navbar />
-      <Component {...pageProps} />
-      <Analytics />
-      <SpeedInsights />
-      <Footer />
+      <div className="flex flex-col gap-20">
+        <div>
+          <Navbar />
+          <Component {...pageProps} />
+        </div>
+        <Analytics />
+        <SpeedInsights />
+        <Footer />
+      </div>
       <Toaster richColors closeButton />
     </div>
   );
