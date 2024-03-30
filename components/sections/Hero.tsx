@@ -34,7 +34,7 @@ export default function Hero() {
 
         <div className="mt-5 text-center mx-auto">
           <h2 className="inline-block p-2 bg-gradient-to-b from-black to-zinc-700 text-transparent bg-clip-text text-4xl font-medium tracking-tighter text-dark lg:text-7xl">
-            High Image Processing
+            Hackable Image Processing
           </h2>
         </div>
 
