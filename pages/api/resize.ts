@@ -13,10 +13,14 @@ export const config = {
 };
 
 export default createApiHandler(ResizeImageSchema, async ({ body }) => {
-  const { image, dimensions } = body;
+  const { image, options } = body;
   const imageBuffer = base64ToBuffer(image.base64);
   const resized = await sharp(imageBuffer)
-    .resize(Number(dimensions.width), Number(dimensions.height))
+    .resize(
+      Number(options.dimensions.width),
+      Number(options.dimensions.height),
+      { fit: options.fit }
+    )
     .withMetadata()
     .toBuffer();
 

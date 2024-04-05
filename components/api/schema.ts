@@ -33,9 +33,18 @@ export const ConvertImageSchema = z.object({
 export const ResizeImageSchema = z.object({
   method: z.literal("POST"),
   body: z.object({
-    dimensions: z.object({
-      width: z.string(),
-      height: z.string(),
+    options: z.object({
+      dimensions: z.object({
+        width: z.string(),
+        height: z.string(),
+      }),
+      fit: z.union([
+        z.literal("cover"),
+        z.literal("contain"),
+        z.literal("fill"),
+        z.literal("inside"),
+        z.literal("outside"),
+      ]),
     }),
     image: z.object({
       base64: z.string().regex(/^data:image\/\w+;base64,/),

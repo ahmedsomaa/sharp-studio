@@ -16,18 +16,33 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { resizeImageFitOptions } from "@/lib/formats";
+import { interFont } from "@/lib/fonts";
 
 type Base64 = string;
+type ImageFit = "cover" | "contain" | "fill" | "inside" | "outside";
 type Dimension = {
   width: string;
   height: string;
 };
 
+type ResizeOptions = {
+  dimensions: Dimension;
+  fit: ImageFit;
+};
+
 export default function Resizer() {
   const [loading, setLoading] = useState(false);
-  const [dimensions, setDimensions] = useState<Dimension>({
-    width: "",
-    height: "",
+  const [options, setOptions] = useState<ResizeOptions>({
+    dimensions: { height: "", width: "" },
+    fit: "cover",
   });
   const [resizedImage, setResizedImage] = useState<Base64 | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -75,7 +90,7 @@ export default function Resizer() {
   const onClickNew = () => {
     setResizedImage(null);
     setSelectedImage(null);
-    setDimensions({ height: "", width: "" });
+    setOptions({ dimensions: { height: "", width: "" }, fit: "cover" });
   };
 
   const onResize = async () => {
@@ -85,7 +100,7 @@ export default function Resizer() {
       const req = await fetch("/api/resize", {
         method: "POST",
         body: JSON.stringify({
-          dimensions,
+          options,
           image: { base64: img, type: selectedImage?.type },
         }),
       });
@@ -96,7 +111,7 @@ export default function Resizer() {
       setLoading(false);
       setResizedImage(res.data.img);
       toast.success("Resize Succeeded", {
-        description: `SharpStudio successfully resized your image to ${dimensions.height}x${dimensions.width}`,
+        description: `SharpStudio successfully resized your image to ${options.dimensions.height}x${options.dimensions.width}`,
       });
     } catch (error) {
       setLoading(false);
@@ -148,12 +163,15 @@ export default function Resizer() {
                     name="height"
                     inputMode="numeric"
                     disabled={!selectedImage}
-                    value={dimensions.height}
+                    value={options.dimensions.height}
                     placeholder="Enter new height..."
                     onChange={({ target }) =>
-                      setDimensions((prev) => ({
+                      setOptions((prev) => ({
                         ...prev,
-                        height: target.value,
+                        dimensions: {
+                          ...prev.dimensions,
+                          height: target.value,
+                        },
                       }))
                     }
                   />
@@ -165,16 +183,44 @@ export default function Resizer() {
                     type="text"
                     name="width"
                     inputMode="numeric"
-                    value={dimensions.width}
+                    value={options.dimensions.width}
                     disabled={!selectedImage}
                     placeholder="Enter new width..."
                     onChange={({ target }) =>
-                      setDimensions((prev) => ({
+                      setOptions((prev) => ({
                         ...prev,
-                        width: target.value,
+                        dimensions: { ...prev.dimensions, width: target.value },
                       }))
                     }
                   />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="fit">Image Fit</Label>
+                  <Select
+                    value={options.fit}
+                    disabled={selectedImage === null}
+                    onValueChange={(value) =>
+                      setOptions((prev) => ({
+                        ...prev,
+                        fit: value as ImageFit,
+                      }))
+                    }
+                  >
+                    <SelectTrigger id="fit" className="w-full">
+                      <SelectValue placeholder="Select a fit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {resizeImageFitOptions.map(({ name, value }) => (
+                        <SelectItem
+                          key={name}
+                          value={value}
+                          className={interFont}
+                        >
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </CardContent>
@@ -193,7 +239,12 @@ export default function Resizer() {
                 ) : (
                   <Button
                     disabled={
-                      loading || !(dimensions.height && dimensions.width)
+                      loading ||
+                      !(
+                        options.dimensions.height &&
+                        options.dimensions.width &&
+                        options.fit
+                      )
                     }
                     onClick={onResize}
                   >
